@@ -41,6 +41,7 @@
     </div>
     <Comment :article="article"/>
   </article>
+  <el-empty v-else description="文章内容" :image-size="200"></el-empty>
   <Footer theme="light"/>
 </template>
 
@@ -113,7 +114,17 @@ export default {
         axios.post('/blog/votedown/', {
           id: this.article.id,
           user_id: localStorage.getItem('userid')
-        }).then(response => (this.article.like_count = response.data.like_count))
+        })
+        .then(response => (this.article.like_count = response.data.like_count))
+        .catch((err) => {
+          if(err.response.status == '404') {
+            ElMessage('文章不存在');
+            this.$router.push({name: 'Home'});
+          }
+          else {
+            ElMessage.error('未知错误');
+          }
+        })
         this.hasVoted = false;
       }
       // 点赞
@@ -121,7 +132,17 @@ export default {
         axios.post('/blog/voteup/', {
           id: this.article.id,
           user_id: localStorage.getItem('userid')
-        }).then(response => (this.article.like_count = response.data.like_count))
+        })
+        .then(response => (this.article.like_count = response.data.like_count))
+        .catch((err) => {
+          if(err.response.status == '404') {
+            ElMessage('文章不存在');
+            this.$router.push({name: 'Home'});
+          }
+          else {
+            ElMessage.error('未知错误');
+          }
+        })
         this.hasVoted = true;
       }
     },
@@ -147,7 +168,7 @@ export default {
         .delete('/blog/article/' + this.article.id + '/', 
                 { headers: {Authorization: 'Bearer ' + localStorage.getItem('access.myblog') }})
         .then(() => {
-          ElMessage.success('文章已删除');
+          ElMessage('文章不存在');
           this.$router.push({name: 'Home'});
         })
         .catch(err => {

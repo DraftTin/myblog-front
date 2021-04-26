@@ -34,27 +34,6 @@
             <button @click="revokeChange('username')">取消</button>
           </div>
         </div>
-        <!-- 邮箱不能修改，单独拿出来 -->
-        <!-- <div class="field">
-          <h3 class="field-label">邮箱</h3>
-          <div>
-            <span class="field-content">{{ userProfile.email }}</span>
-          </div>
-        </div> -->
-        <!-- 遍历三个分别为：中文值，英文键值，下标 -->
-        <!-- <div class="field" v-for="(value, key, index) in items" :key="index"
-          @mouseenter="showBtn(key)" @mouseleave="hideBtn(key)">
-          <h3 class="field-label">{{ value }}</h3>
-          <div v-if="canChange[key]" class="edit-area-container">
-            <input type="text" v-model="changedProfile[key]"/>
-            <button @click="saveChange(key)">保存</button>
-            <button @click="revokeChange(key)">取消</button>
-          </div>
-          <div v-else>
-            <span class="field-content">{{ userProfile[key] }}</span>
-            <button @click="change(key)" v-show="btnShow[key]">修改</button>
-          </div>
-        </div> -->
         <!-- 邮箱不能修改 -->
         <div class="field">
           <h3 class="field-label">邮箱</h3>
@@ -164,6 +143,35 @@
       </div>
     </div>
   </div>
+  <div>
+    <el-button class="change-pass-btn" @click="handleChangePass">
+      修改密码
+    </el-button>
+    <!-- 修改密码的表单 -->
+    <el-dialog title="修改密码" v-model="dialogFormVisible">
+      <el-form>
+        <el-form-item label="新密码" :label-width="formLabelWidth">
+          <el-input v-model="changePasswordForm.newPassword" autocomplete="off" show-password>
+          </el-input>
+        </el-form-item>
+        <el-form-item label="确认密码" :label-width="formLabelWidth">
+          <el-input v-model="changePasswordForm.confirmPassword" autocomplete="off" show-password>
+          </el-input>
+          <p v-if="changePasswordForm.newPassword != changePasswordForm.confirmPassword" class="prompt">密码不一致</p>
+          <p v-else class="prompt"></p>
+        </el-form-item>
+      </el-form>
+      <template #footer>
+        <span class="dialog-footer">
+          <el-button @click="clearDialog()">取 消</el-button>
+          <el-button type="primary" @click="changePass()" 
+                  :disabled="changePasswordForm.newPassword != changePasswordForm.confirmPassword || 
+                  changePasswordForm.newPassword == '' ">确 定</el-button>
+        </span>
+      </template>
+    </el-dialog>
+  </div>
+
   <Footer theme="light"/>
 </template>
 
@@ -187,19 +195,18 @@ export default {
         city: '',
         zip:'',
         intro: '',
-        photo: '',     // photo的URL用于显示图片
-        
+        photo: '',                // photo的URL用于显示图片
       },
       canChange: {},
       changedProfile: '',
-      btnShow: {},          // 显示'修改按钮',
-      // items: {              // 用于控制显示在编辑页面的条目名称，省掉重复代码，初始没有用户名和邮箱
-      //   'intro': '一句话介绍',
-      //   'country': '国家',
-      //   'city': '城市',
-      //   'address': '地址',
-      //   'zip': '邮政编码',        
-      // }
+      btnShow: {},                // 显示'修改按钮',
+      // dialogFormVisible: false,   // 显示修改密码的模态框
+      dialogFormVisible: false,
+      changePasswordForm: {
+        newPassword: '',
+        confirmPassword: ''
+      },
+      formLabelWidth: '120px'
     }
   },
   beforeCreate() {
@@ -284,9 +291,6 @@ export default {
         ElMessage.success('修改已保存')
       })
       .catch(err => {
-        // console.log(err.response.data)
-        // console.log(err.response.status)
-        // ElMessage.error('发生未知错误, 请重新修改');
         if(err.response.data.username) {
           ElMessage.error('该用户名已经存在');
         }
@@ -294,19 +298,6 @@ export default {
           ElMessage.error('发生未知错误, 请重新修改');
         }
       });
-      // axios
-      //   .get('/blog/userid', {
-      //     params: { 
-      //       'token': localStorage.getItem('access.myblog')
-      //     }
-      //   })
-      //   .then(response => {
-      //     axios.patch('/blog/user/' + response.data.user_id + '/', data, { headers: {Authorization: 'Bearer ' + localStorage.getItem('access.myblog') }} )
-      //     .catch(err => {
-      //       console.log(err + "errrrr");
-      //     });
-      //     ElMessage.success('修改已保存.')
-      //   })
     },
     showBtn(item) {
       this.btnShow[item] = true;
@@ -357,6 +348,69 @@ export default {
             ElMessage.success('图片上传成功')
           })
       }
+    },
+    // 点击'修改密码'按钮触发
+    async handleChangePass() {
+      this.$prompt('请输入当前密码', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        inputPattern: /.+/,
+        inputErrorMessage: '输入不能为空',
+        inputType: 'password'
+      }).then(({ value }) => {
+        // 如果输入密码正确则显示修改密码的模态框
+        this.validatePass(value)
+          .then((response) => {
+            const passRight = response[0];
+            if(passRight) {
+              this.dialogFormVisible = true;
+            }
+          })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消'
+        });
+      });
+    },
+    // 验证password是否正确
+    async validatePass(password) {
+      let flag = true;
+      await axios
+          .post('/api/token/', {
+            email: localStorage.getItem('email.myblog'),
+            password: password
+          })
+          .catch((err) => {
+            if(err.response.status == '401') {
+              ElMessage.warning('密码错误');
+              flag = false;
+            }
+          })
+      return [flag];
+    },
+    // 提交密码的修改
+    changePass() {
+      const userid = localStorage.getItem('userid');
+      axios.
+        patch('/blog/user/' + userid + '/', {
+          password: this.changePasswordForm.newPassword
+        }, { 
+          headers: {Authorization: 'Bearer ' + localStorage.getItem('access.myblog') }
+        })
+        .then(() => {
+          this.clearDialog();
+          ElMessage.success('修改成功');
+        })
+        .catch((err) => {
+          ElMessage.error(err.response.status);
+        })
+    },
+    // 清空对话框的状态
+    clearDialog() {
+      this.changePasswordForm.newPassword = '';
+      this.changePasswordForm.confirmPassword = '';
+      this.dialogFormVisible = false;
     }
   }
 }
@@ -429,5 +483,15 @@ button {
   margin-bottom: 0.5rem;
 }
 
+.change-pass-btn {
+  margin-left: 80%;
+}
+
+.prompt {
+  font-size: small;
+  color: red;
+  padding: 0;
+  margin: 0;
+}
 
 </style>

@@ -29,12 +29,13 @@
             maxlength="128"
             minlength="0"
             class="edit-area"
+            @keypress.enter="handleLogin"
           >
           </el-input>
         </div>
       </div>
       <div class="form-elem">
-        <button @click.prevent="submitForm">登陆</button>
+        <button @click.prevent="handleLogin">登陆</button>
       </div>
     </div>
   </main>
@@ -53,8 +54,6 @@ export default {
         email: '',
         password: ''
       },
-      // 登陆表单提交后的应答信息，根据应答信息来判断登陆后下一步的动作
-      loginResponse: '',
     }
   },
   methods: {
@@ -77,14 +76,6 @@ export default {
       this.submitForm()
     },
     async submitForm() {
-      if(this.loginForm.email.length == 0) {
-        ElMessage.warning('邮箱字段不能为空');
-        return ;
-      }
-      if(this.loginForm.password.length == 0) {
-        ElMessage.warning('密码字段不能为空');
-        return ;
-      }
       axios
         .post('/api/token/', {
           email: this.loginForm.email,
@@ -99,9 +90,10 @@ export default {
           storage.setItem('refresh.myblog', response.data.refresh);
           storage.setItem('expiredTime.myblog', expiredTime);
           storage.setItem('email.myblog', this.loginForm.email);
-          // 登陆后将用户的username保存到
+          // 登陆后将用户的username保存到本地
           axios.get('/blog/userinfo/', {
             params: {
+              // 通过token获取用户信息
               'token': localStorage.getItem('access.myblog')
             }
           }).then(response=> {
@@ -112,9 +104,14 @@ export default {
           })
         })
         // 登陆失败捕捉异常
-        // eslint-disable-next-line no-unused-vars
         .catch(err => {
-          ElMessage.error('账号或密码错误');
+          if(err.response.status == '401') {
+            ElMessage.error('账号或密码错误');
+          }
+          else {
+            ElMessage.error('未知错误');
+            this.$router.go(0);
+          }
         })
     }
   }
