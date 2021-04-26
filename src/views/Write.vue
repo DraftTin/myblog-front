@@ -127,7 +127,10 @@ export default {
         body: this.inputText,
         tags: tags,
         user: localStorage.getItem('username')
-      }).then(response => {
+      },{ 
+        headers: {Authorization: 'Bearer ' + localStorage.getItem('access.myblog') }
+      })
+      .then(response => {
       // 发表成功后接收到服务器端发送的文章编号之后跳转到文章详情页面
         ElMessage.success("发表成功!")
         console.log(response.data)

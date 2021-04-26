@@ -288,7 +288,10 @@ export default {
       .then(() => {
         this.userProfile[item] = this.changedProfile[item];
         this.revokeChange(item);
-        ElMessage.success('修改已保存')
+        ElMessage.success('修改已保存');
+        if(item == 'username') {
+          localStorage.setItem('username', data.username);
+        }
       })
       .catch(err => {
         if(err.response.data.username) {
