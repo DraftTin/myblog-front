@@ -150,6 +150,8 @@ export default {
             content: this.commentText,
             article_id: this.article.id,
             quote_comment_id: this.quoteCommentID
+          }, { 
+            headers: {Authorization: 'Bearer ' + localStorage.getItem('access.myblog') }
           })
           .then(response => {
             ElMessage.success('评论提交成功')
