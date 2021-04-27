@@ -44,6 +44,7 @@
 <script>
 import { ElMessage } from 'element-plus'
 import axios from 'axios'
+import authorization from '@/utils/authorization.js'
 
 export default {
   name: 'Login',
@@ -55,6 +56,15 @@ export default {
         password: ''
       },
     }
+  },
+  mounted () {
+    authorization().then(response => {
+        let hasLogin = false;
+        hasLogin = response[0];
+        if(hasLogin === true) {
+            this.$router.push({name: 'Home'})
+        }
+    });
   },
   methods: {
     handleLogin () {
