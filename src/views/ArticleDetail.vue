@@ -168,7 +168,7 @@ export default {
         .delete('/blog/article/' + this.article.id + '/', 
                 { headers: {Authorization: 'Bearer ' + localStorage.getItem('access.myblog') }})
         .then(() => {
-          ElMessage('文章不存在');
+          ElMessage.success('文章删除成功');
           this.$router.push({name: 'Home'});
         })
         .catch(err => {
