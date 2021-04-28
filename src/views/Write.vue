@@ -12,8 +12,8 @@
     <!-- <div>
       <input type="text" v-model="title" placeholder="请输入标题(最多40字)">
     </div> -->
-    <textarea rows="1" class="write-title" placeholder="请输入标题（最多 100 个字）" 
-      @keypress.enter.prevent="noNewline" v-model="title"/>
+    <textarea rows="1" class="write-title" placeholder="请输入标题（最多 40 个字）" 
+      @keypress.enter.prevent="noNewline" v-model="title" maxlength="40"/>
     <div class="write-tags-container">
       <i>文章标签：</i>
       <input type="text" class="tag-input" v-model="tempTag" @keyup.alt="addTag" placeholder="Alt + Enter"/>
@@ -22,7 +22,6 @@
       </div>
     </div>
     <div class="input-text-container">
-      <!-- <textarea cols="30" rows="10" placeholder="请输入正文" v-model="inputText" @input="update"></textarea> -->
       <!-- <textarea class="input-text" rows=1 placeholder="请输入正文" @input="autoResize" v-model="inputText" ref="inputText"/> -->
       <el-input
         class="input-text"
@@ -168,6 +167,10 @@ textarea {
   font-size: 1rem;
 }
 
+
+textarea::-webkit-scrollbar {
+  display: none;
+}
 
 /* .input-text {
   max-height: 50vh;

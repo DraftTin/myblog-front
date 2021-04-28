@@ -10,8 +10,8 @@
     </div>
     <!-- if !showPreview 显示编辑文章板块 -->
     <div class="edit-area" v-show="!showPreview">
-      <textarea rows="1" class="write-title" placeholder="请输入标题（最多 100 个字）" 
-        @keypress.enter.prevent="noNewline" v-model="title"/>
+      <textarea rows="1" class="write-title" placeholder="请输入标题（最多 40 个字）"
+        @keypress.enter.prevent="noNewline" v-model="title" maxlength="40"/>
       <div class="write-tags-container">
         <i>文章标签：</i>
         <input type="text" class="tag-input" v-model="tempTag" @keyup.alt="addTag" placeholder="Alt + Enter"/>
