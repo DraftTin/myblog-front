@@ -19,9 +19,14 @@ async function authorization() {
       hasLogin = true;
     }
     catch(err) {
-        console.log(err);
-        hasLogin = false;
-        localStorage.clear()
+      if(err.response){
+        console.log(err.response);
+      }
+      else {
+        console.log("unkown error");
+      }
+      hasLogin = false;
+      localStorage.clear();
     }
   }
   return [ hasLogin, localStorage.getItem('access.myblog') ]

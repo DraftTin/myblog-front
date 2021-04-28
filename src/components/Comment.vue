@@ -160,8 +160,12 @@ export default {
             thisArticle.comments.unshift(response.data);
             this.commentText = '';
           })
-      // 复原评论输入框
+      // 评论输入置空
       let commentInput = this.$refs.commentInput;
+      this.commentPlaceholder = '发表公开评论';
+      this.commentText = '';
+      this.quoteCommentID = null;
+      // 复原评论输入框
       commentInput.style.height = 'auto'
       commentInput.height = `${commentInput.scrollHeight}px`
     },
@@ -270,10 +274,12 @@ export default {
 p {
   margin-left: 1rem;
   margin-top: 1rem;
+  /* 设置英文强行换行 */
+  word-wrap:break-word;
 }
 
 a {
-  text-decoration: underline;
+  color: var(--text-gray);
 }
 
 blockquote {
