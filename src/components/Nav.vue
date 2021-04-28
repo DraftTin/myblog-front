@@ -146,3 +146,9 @@ h4.logo {
 }
 
 </style>
+
+<style scoped>
+  svg {
+    color: #2a2a2a;
+  }
+</style>

@@ -1,7 +1,8 @@
 <template>
   <div class="login-header">
     <router-link :to="{name: 'Start'}">
-      <img src="@/assets/logo.png" class="" alt="logo"/>
+      <!-- <img src="@/assets/logo.png" class="" alt="logo"/> -->
+      <font-awesome-icon :icon="['fas', 'blog']"></font-awesome-icon>
     </router-link>
   </div>
   <main>
@@ -192,4 +193,14 @@ export default {
     height: 3rem;
   }
   
+</style>
+
+<style scoped>
+  svg {
+    font-size: 3rem;
+    color: blueviolet;
+    padding: 1rem;
+    border-radius: 5rem;
+    /* background-color: rgb(224, 236, 176); */
+  }
 </style>
