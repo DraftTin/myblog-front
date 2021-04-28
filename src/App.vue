@@ -10,6 +10,8 @@ export default {
 
 <style>
 
+@import url('https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&display=swap');
+
 html{
   scroll-behavior: smooth;
   /* background-color: #a9a9a9; */
@@ -26,7 +28,8 @@ body {
 }
 
 #app {
-  font-family: Georgia, Arial, sans-serif;
+  font-family: 'ZCOOL KuaiLe', cursive;
+  /* font-family: Georgia, Arial, sans-serif; */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -45,7 +48,6 @@ body {
 
 a {
   text-decoration: none;
-  color: var(--text-gray);
 }
 
 .flex-row {

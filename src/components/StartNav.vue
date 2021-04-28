@@ -3,34 +3,40 @@
     <div class="navbar-left-container">
       <router-link :to="{name: 'Home'}">
         <div class="navbar-item">
-            <img src="@/assets/logo.png" class="" alt="logo"/>
-            <h4 class="logo">MY PAGE</h4>
+          <font-awesome-icon :icon="['fas', 'blog']"></font-awesome-icon>
+          <!-- <img src="@/assets/blogger-brands.svg" alt="myblog"> -->
+            <!-- <img src="@/assets/logo.png" class="" alt="logo"/> -->
+            <h4 class="logo">MY BLOOG</h4>
         </div>
       </router-link>
       <div class="navbar-item">
         <Search/>
       </div>
-      <div><router-link class="navbar-item" :to="{ name: 'Home' }">首页</router-link></div>
+      <div class="navbar-item"><router-link class="nav-link" :to="{ name: 'Home' }">首页</router-link></div>
     </div>
     <div class="navbar-right-container">
         <div class="navbar-item">
             <a class="nav-link" href="#explore" @click.prevent="anchorJump">
-                Explore
+                <!-- Explore -->
+                探索
             </a>
         </div>
         <div class="navbar-item">
             <a class="nav-link" href="#features" @click.prevent="anchorJump">
-                Feature
+                <!-- Feature -->
+                特性
             </a>
         </div>     
         <div class="navbar-item">
             <a class="nav-link" href="#about-us" @click.prevent="anchorJump">
-                About Us
+                <!-- About Us -->
+                关于
             </a>
         </div>
         <div class="navbar-item">
             <router-link class="nav-link" :to="{ name: 'LoginInterface'}">
-                Login
+                <!-- Login -->
+                登陆
             </router-link>
         </div>
     </div>
@@ -67,6 +73,7 @@ export default {
 </script>
 
 <style scoped>
+
 nav{
     height: 10vh;
     left: 0;
@@ -76,11 +83,13 @@ nav{
     align-items: center;
     background-color: #181818;
 }
+
 .navbar-left-container {
   display: flex;
   flex: 1;
   align-items: center;
 }
+
 .navbar-left-container .navbar-item {
   margin-left: 2.5rem;
 }
@@ -92,18 +101,21 @@ nav{
   margin-right: 5%;
   align-items: center;
 }
+
 .navbar-right-container .navbar-item {
   margin-right: 2.5rem;;
 }
+
 .navbar-item {
   display: flex;
   align-items: center;
-  color: var(--black);
   text-decoration: none;
 }
-.navbar-item img {
-  height: 24px;
-}
+
+/* .navbar-item img {
+  height: 1.5rem;
+  margin-right: 0.5rem;
+} */
 
 .nav-link {
   color: #b1afaf;
@@ -116,6 +128,14 @@ h4 {
 
 .nav-link:hover {
     background-color: var(--midnight)
+}
+
+.nav-link {
+  font-size: 1.3rem;
+}
+
+h4.logo {
+  margin-left: 0.5rem;
 }
 
 </style>

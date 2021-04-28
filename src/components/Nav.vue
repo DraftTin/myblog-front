@@ -3,8 +3,11 @@
     <div class="navbar-left-container">
       <router-link :to="{name: 'Home'}">
         <div class="navbar-item">
-            <img src="@/assets/logo.png" class="" alt="logo"/>
-            <h4 class="logo">MY PAGE</h4>
+          <!-- <img src="@/assets/blogger-brands.svg" alt="myblog"> -->
+          <font-awesome-icon :icon="['fas', 'blog']"></font-awesome-icon>
+            <!-- <img src="@/assets/logo.png" class="" alt="logo"/> -->
+          <h4 class="logo">MY BLOOG</h4>
+            
         </div>
       </router-link>
       <div class="navbar-item">
@@ -15,17 +18,20 @@
     <div class="navbar-right-container">
         <router-link :to="{name: 'Write'}">
           <div class="navbar-item nav-link">
-            Publish
+            <!-- Publish -->
+            发布
           </div>
         </router-link>
         <router-link :to="{name: 'UserCenter'}">
           <div class="navbar-item nav-link">
-              Profile
+              <!-- Profile -->
+              资料
           </div>     
         </router-link>
         <router-link :to="{name: 'Start'}" @click="signout">
           <div class="navbar-item nav-link">
-            Exit
+            <!-- Exit -->
+            退出
           </div>
         </router-link>
     </div>
@@ -34,24 +40,27 @@
     <div class="navbar-left-container">
       <router-link :to="{name: 'Home'}" @click="signout">
         <div class="navbar-item">
-            <img src="@/assets/logo.png" class="" alt="logo"/>
-            <h4 class="logo">MY PAGE</h4>
+          <font-awesome-icon :icon="['fas', 'blog']"></font-awesome-icon>
+            <!-- <img src="@/assets/logo.png" class="" alt="logo"/> -->
+          <h4 class="logo">MY BLOOG</h4>
         </div>
       </router-link>
       <div class="navbar-item">
         <Search/>
       </div>
-      <div><router-link class="navbar-item" :to="{ name: 'Home' }">首页</router-link></div>
+      <div><router-link class="navbar-item nav-link" :to="{ name: 'Home' }">首页</router-link></div>
     </div>
     <div class="navbar-right-container">
         <router-link :to="{name: 'LoginInterface'}">
-          <div class="navbar-item">
-            Login
+          <div class="navbar-item nav-link">
+            <!-- Login -->
+            登陆
           </div>
         </router-link>
         <router-link :to="{name: 'SignUpInterface'}">
-          <div class="navbar-item">
-              Sign up
+          <div class="navbar-item nav-link">
+              <!-- Sign up -->
+              注册
           </div>     
         </router-link>
     </div>
@@ -119,11 +128,21 @@ nav{
   color: var(--black);
   text-decoration: none;
 }
-.navbar-item img {
-  height: 24px;
-}
+/* .navbar-item img {
+  height: 1.5rem;
+  margin-right: 0.3rem;
+} */
 
 .nav-link:hover {
   background-color: #bda870;
 }
+
+.nav-link {
+  font-size: 1.3rem;
+}
+
+h4.logo {
+  margin-left: 0.5rem;
+}
+
 </style>

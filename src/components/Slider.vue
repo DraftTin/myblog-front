@@ -140,5 +140,9 @@ abbr {
   text-decoration: none;
 }
 
+a {
+  color: #2a2a2a;
+}
+
 </style>
 
