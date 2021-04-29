@@ -28,11 +28,11 @@
           <div class="nav-content-container">
             <h1><a id="features">特性</a></h1>
             <p>支持markdown编辑</p>
-            <p>远程存储</p>
+            <p>远程存储，随时修改</p>
           </div>
           <div class="nav-content-container">
             <h1><a id="about-us">关于我们</a></h1>
-            <p>联系方式: xxxxxxxxxxxx</p>
+            <p>联系方式: 474827656@qq.com</p>
           </div>
       </section>
   </main>
