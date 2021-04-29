@@ -198,7 +198,7 @@ export default {
         photo: '',                // photo的URL用于显示图片
       },
       canChange: {},
-      changedProfile: '',
+      changedProfile: {},
       btnShow: {},                // 显示'修改按钮',
       // dialogFormVisible: false,   // 显示修改密码的模态框
       dialogFormVisible: false,
@@ -260,10 +260,12 @@ export default {
   },
   methods: {
     change(item) {
+      // 修改框中保留原内容
+      this.changedProfile[item] = this.userProfile[item];
       // 打开修改对应item的修改框
-      // 非嵌套引用可直接使用assign
-      this.changedProfile = Object.assign({}, this.userProfile);
       this.canChange[item] = true;
+      // 非嵌套引用可直接使用assign
+      // this.changedProfile = Object.assign({}, this.userProfile);
     },
     revokeChange(item) {
       // 撤回未提交的修改
