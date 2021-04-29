@@ -16,7 +16,7 @@
       @keypress.enter.prevent="noNewline" v-model="title" maxlength="40"/>
     <div class="write-tags-container">
       <i>文章标签：</i>
-      <input type="text" class="tag-input" v-model="tempTag" @keyup.alt="addTag" placeholder="ADD TAG: Alt + Enter"/>
+      <input type="text" class="tag-input" v-model="tempTag" @keyup.alt="addTag" placeholder="TO ADD: Alt + Enter"/>
       <div v-for="tag in tags" :key="tag" @click="deleteTag(tag)" class="pill">
         <span>{{ tag }}</span>
       </div>
