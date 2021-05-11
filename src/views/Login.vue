@@ -86,7 +86,7 @@ export default {
       }
       this.submitForm()
     },
-    async submitForm() {
+    submitForm() {
       axios
         .post('/api/token/', {
           email: this.loginForm.email,
